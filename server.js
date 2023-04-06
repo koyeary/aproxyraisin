@@ -21,6 +21,7 @@ app.get("/favicon.ico", (req, res, next) => {
 
 app.get("/analzye", (req, res, next) => {
   res.send(`Scraping URL for analysis...`);
+  console.log("Scraping URL for analysis...");
 });
 app.post("/analyze", async (req, res) => {
   const { url } = req.body;
