@@ -19,10 +19,9 @@ app.get("/favicon.ico", (req, res, next) => {
   res.sendStatus(204);
 });
 
-app.get("/info", (req, res, next) => {
+app.get("/analzye", (req, res, next) => {
   res.send(`Scraping URL for analysis...`);
 });
-
 app.post("/analyze", async (req, res) => {
   const { url } = req.body;
 
