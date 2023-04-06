@@ -1,27 +1,43 @@
 const express = require("express");
-const axios = require("request");
+const axios = require("axios");
+const morgan = require("morgan");
+const { createProxyMiddleware } = require("http-proxy-middleware");
+const cheerio = require("cheerio");
+const fs = require("fs");
+const cors = require("cors");
 
 const app = express();
+app.use(morgan("dev"));
+app.use(cors());
+app.use(express.json());
 
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  next();
+app.get("/favicon.ico", (req, res, next) => {
+  res.sendStatus(204);
 });
 
-app.get("/parser", (req, res) => {
-  axios(
-    {
-      url: "https://www.findlaw.com/legalblogs/legally-weird/diner-sues-saying-boneless-chicken-wings-arent-really-wings/",
-    },
-    (error, response, body) => {
-      if (error || response.statusCode !== 200) {
-        return res.status(500).json({ type: "error", message: err.message });
-      }
-
-      res.json(JSON.parse(body));
-    }
-  );
+app.get("/info", (req, res, next) => {
+  res.send(`Scraping URL for analysis...`);
 });
 
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => console.log(`listening on ${PORT}`));
+//const API_SERVICE_URL = "https://jsonplaceholder.typicode.com/users";
+
+app.post("/analyze", async (req, res) => {
+  const { url } = req.body;
+
+  createProxyMiddleware({
+    target: url,
+    changeOrigin: true,
+    pathRewrite: { [`^/analyze`]: "" },
+    logger: console,
+  });
+
+  const response = await axios.get(url);
+  const html = response.data;
+  const $ = cheerio.load(html);
+  res.send($("main").text());
+});
+const PORT = 3001 || process.env.PORT;
+
+app.listen(PORT, () => {
+  console.log(`Server running at ${PORT}`);
+});
