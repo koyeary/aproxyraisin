@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "serve -s dist"
   },
   "author": "Kat Yeary-Rantala",
   "license": "ISC",
@@ -22,6 +22,7 @@
     "nodemon": "^2.0.22",
     "openurl": "^1.1.1",
     "pretty": "^2.0.0",
+    "serve": "^14.2.0",
     "serve-favicon": "^2.5.0"
   }
 }
