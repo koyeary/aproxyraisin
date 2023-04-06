@@ -15,10 +15,8 @@ app.use(express.json());
 app.get("/favicon.ico", (req, res, next) => {
   res.sendStatus(204);
 });
-
-app.use("/", express.static("public"));
-app.get("/*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "build", "index.html"));
+app.get("/info", (req, res, next) => {
+  res.send("Hello World");
 });
 
 app.post("/analyze", async (req, res) => {
@@ -35,34 +33,66 @@ app.post("/analyze", async (req, res) => {
     const response = await axios.get(url);
     const html = response.data;
     const $ = cheerio.load(html);
-    const dir = {
-      title: $("title").text(),
-      h1: $("h1").text(),
-      h2: $("h2").text(),
-      h3: $("h3").text(),
-      h4: $("h4").text(),
-      h5: $("h5").text(),
-      h6: $("h6").text(),
-      p: $("p").text(),
-      a: $("a").text(),
-      img: $("img").text(),
-      li: $("li").text(),
-      ul: $("ul").text(),
-      ol: $("ol").text(),
-      main: $("main").text(),
+    const elements = {
+      title: [],
+      h1: [],
+      h2: [],
+      h3: [],
+      h4: [],
+      h5: [],
+      h6: [],
+      p: [],
+      a: [],
+      li: [],
+      ul: [],
+      ol: [],
+      main: [],
     };
-    res.send(dir);
+
+    $("title").each((i, el) => {
+      elements.title.push($(el).text());
+    });
+    $("h1").each((i, el) => {
+      elements.h1.push($(el).text());
+    });
+    $("h2").each((i, el) => {
+      elements.h2.push($(el).text());
+    });
+    $("h3").each((i, el) => {
+      elements.h3.push($(el).text());
+    });
+    $("h4").each((i, el) => {
+      elements.h4.push($(el).text());
+    });
+    $("h5").each((i, el) => {
+      elements.h5.push($(el).text());
+    });
+    $("h6").each((i, el) => {
+      elements.h6.push($(el).text());
+    });
+    $("p").each((i, el) => {
+      elements.p.push($(el).text());
+    });
+    $("a").each((i, el) => {
+      elements.a.push($(el).text());
+    });
+    $("li").each((i, el) => {
+      elements.li.push($(el).text());
+    });
+    $("ul").each((i, el) => {
+      elements.ul.push($(el).text());
+    });
+    $("ol").each((i, el) => {
+      elements.ol.push($(el).text());
+    });
+    $("main").each((i, el) => {
+      elements.main.push($(el).text());
+    });
+
+    res.send(elements);
   } catch (error) {
     console.log(error);
   }
-  /*   fs.writeFile("text.txt", dir, (err) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
-    console.log("File has been created"); 
-    //res.sendFile(__dirname + "/text.txt");
-  });*/
 });
 
 app.use(
