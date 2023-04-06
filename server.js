@@ -16,8 +16,9 @@ app.get("/favicon.ico", (req, res, next) => {
   res.sendStatus(204);
 });
 
-app.get("/", (req, res, next) => {
-  res.send(`Scraping URL for analysis...`);
+app.use("/", express.static("public"));
+app.get("/*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "build", "index.html"));
 });
 
 app.post("/analyze", async (req, res) => {
