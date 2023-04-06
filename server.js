@@ -12,17 +12,14 @@ app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
 
-app.get("/*", (req, res, next) => {
-  re;
-});
 app.get("/favicon.ico", (req, res, next) => {
   res.sendStatus(204);
 });
 
-app.get("/analzye", (req, res, next) => {
+app.get("/", (req, res, next) => {
   res.send(`Scraping URL for analysis...`);
-  console.log("Scraping URL for analysis...");
 });
+
 app.post("/analyze", async (req, res) => {
   const { url } = req.body;
 
