@@ -12,6 +12,9 @@ app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
 
+app.get("/*", (req, res, next) => {
+  re;
+});
 app.get("/favicon.ico", (req, res, next) => {
   res.sendStatus(204);
 });
