@@ -1,10 +1,10 @@
 const express = require("express");
 const session = require("express-session");
+const path = require("path");
 const axios = require("axios");
 const morgan = require("morgan");
 const { createProxyMiddleware } = require("http-proxy-middleware");
 const cheerio = require("cheerio");
-const fs = require("fs");
 const cors = require("cors");
 
 const app = express();
