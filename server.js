@@ -15,7 +15,7 @@ app.use(express.json());
 app.get("/favicon.ico", (req, res, next) => {
   res.sendStatus(204);
 });
-app.get("/info", (req, res, next) => {
+app.get("/*", (req, res, next) => {
   res.send("Hello World");
 });
 
@@ -98,6 +98,17 @@ app.post("/analyze", async (req, res) => {
 app.use(
   session({ secret: "testSession", resave: true, saveUninitialized: true })
 );
+
+// Serve static assets in production
+if (process.env.NODE_ENV === "production") {
+  // Set static folder
+  app.use(express.static("client/build"));
+
+  app.get("/", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
+
 const PORT = 3001 || process.env.PORT;
 
 app.listen(PORT, () => {
