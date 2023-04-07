@@ -33,7 +33,7 @@ app.post("/showcase", async (req, res) => {
     const response = await axios.get(url);
     const html = response.data;
     const $ = cheerio.load(html);
-    const elements = {
+    /* const elements = {
       title: [],
       h1: [],
       h2: [],
@@ -47,46 +47,48 @@ app.post("/showcase", async (req, res) => {
       ul: [],
       ol: [],
       main: [],
-    };
+    }; */
+
+    const elements = [];
 
     $("title").each((i, el) => {
-      elements.title.push($(el).text());
+      elements.push($(el).text()); //elements.title.push($(el).text());
     });
     $("h1").each((i, el) => {
-      elements.h1.push($(el).text());
+      elements.push($(el).text()); //elements.h1.push($(el).text());
     });
     $("h2").each((i, el) => {
-      elements.h2.push($(el).text());
+      elements.push($(el).text()); //elements.h2.push($(el).text());
     });
     $("h3").each((i, el) => {
-      elements.h3.push($(el).text());
+      elements.push($(el).text()); //elements.h3.push($(el).text());
     });
     $("h4").each((i, el) => {
-      elements.h4.push($(el).text());
+      elements.push($(el).text()); //elements.h4.push($(el).text());
     });
     $("h5").each((i, el) => {
-      elements.h5.push($(el).text());
+      elements.push($(el).text()); //elements.h5.push($(el).text());
     });
     $("h6").each((i, el) => {
-      elements.h6.push($(el).text());
+      elements.push($(el).text()); //elements.h6.push($(el).text());
     });
     $("p").each((i, el) => {
-      elements.p.push($(el).text());
+      elements.push($(el).text()); //elements.p.push($(el).text());
     });
     $("a").each((i, el) => {
-      elements.a.push($(el).text());
+      elements.push($(el).text()); //elements.a.push($(el).text());
     });
     $("li").each((i, el) => {
-      elements.li.push($(el).text());
+      elements.push($(el).text()); //elements.li.push($(el).text());
     });
     $("ul").each((i, el) => {
-      elements.ul.push($(el).text());
+      elements.push($(el).text()); //elements.ul.push($(el).text());
     });
     $("ol").each((i, el) => {
-      elements.ol.push($(el).text());
+      elements.push($(el).text()); //elements.ol.push($(el).text());
     });
     $("main").each((i, el) => {
-      elements.main.push($(el).text());
+      elements.push($(el).text()); //elements.main.push($(el).text());
     });
 
     res.send(elements);
