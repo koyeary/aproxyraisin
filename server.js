@@ -19,14 +19,14 @@ app.get("/*", (req, res, next) => {
   res.send("Hello World");
 });
 
-app.post("/analyze", async (req, res) => {
+app.post("/showcase", async (req, res) => {
   const { url } = req.body;
 
   try {
     createProxyMiddleware({
       target: url,
       changeOrigin: true,
-      pathRewrite: { [`^/analyze`]: "" },
+      pathRewrite: { [`^/showcase`]: "" },
       logger: console,
     });
 
@@ -101,7 +101,7 @@ app.use(
 
 app.use(express.static(path.join(__dirname, "public")));
 
-const PORT = 3001 || process.env.PORT;
+const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => {
   console.log(`Server running at ${PORT}`);
