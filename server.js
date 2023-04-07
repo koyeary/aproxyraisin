@@ -91,7 +91,8 @@ app.post("/showcase", async (req, res) => {
       elements.push($(el).text()); //elements.main.push($(el).text());
     });
 
-    res.send(elements.join("").replace("\n", ""));
+    const string = elements.join("");
+    res.send(string.replace("\n", ""));
   } catch (error) {
     console.log(error);
   }
