@@ -33,65 +33,34 @@ app.post("/showcase", async (req, res) => {
     const response = await axios.get(url);
     const html = response.data;
     const $ = cheerio.load(html);
-    /* const elements = {
-      title: [],
-      h1: [],
-      h2: [],
-      h3: [],
-      h4: [],
-      h5: [],
-      h6: [],
-      p: [],
-      a: [],
-      li: [],
-      ul: [],
-      ol: [],
-      main: [],
-    }; */
 
+    const arrElements = [
+      "title",
+      "h1",
+      "h2",
+      "h3",
+      "h4",
+      "h5",
+      "h6",
+      "p",
+      "a",
+      "li",
+      "ul",
+      "ol",
+      "main",
+    ];
     const elements = [];
 
-    $("title").each((i, el) => {
-      elements.push($(el).text()); //elements.title.push($(el).text());
-    });
-    $("h1").each((i, el) => {
-      elements.push($(el).text()); //elements.h1.push($(el).text());
-    });
-    $("h2").each((i, el) => {
-      elements.push($(el).text()); //elements.h2.push($(el).text());
-    });
-    $("h3").each((i, el) => {
-      elements.push($(el).text()); //elements.h3.push($(el).text());
-    });
-    $("h4").each((i, el) => {
-      elements.push($(el).text()); //elements.h4.push($(el).text());
-    });
-    $("h5").each((i, el) => {
-      elements.push($(el).text()); //elements.h5.push($(el).text());
-    });
-    $("h6").each((i, el) => {
-      elements.push($(el).text()); //elements.h6.push($(el).text());
-    });
-    $("p").each((i, el) => {
-      elements.push($(el).text()); //elements.p.push($(el).text());
-    });
-    $("a").each((i, el) => {
-      elements.push($(el).text()); //elements.a.push($(el).text());
-    });
-    $("li").each((i, el) => {
-      elements.push($(el).text()); //elements.li.push($(el).text());
-    });
-    $("ul").each((i, el) => {
-      elements.push($(el).text()); //elements.ul.push($(el).text());
-    });
-    $("ol").each((i, el) => {
-      elements.push($(el).text()); //elements.ol.push($(el).text());
-    });
-    $("main").each((i, el) => {
-      elements.push($(el).text()); //elements.main.push($(el).text());
-    });
+    const getInnerText = () => {
+      arrElements.map((el) => elements.push($(el).text()));
+    };
 
-    res.send(elements.join(""));
+    const setString = () => {
+      getInnerText();
+      return res.send(elements.join(""));
+    };
+
+    setString();
   } catch (error) {
     console.log(error);
   }
