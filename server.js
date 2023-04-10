@@ -63,6 +63,7 @@ app.post("/showcase", async (req, res) => {
     setString();
   } catch (error) {
     console.log(error);
+    res.sendStatus(500);
   }
 });
 
