@@ -15,11 +15,8 @@ app.use(express.json());
 app.get("/favicon.ico", (req, res, next) => {
   res.sendStatus(204);
 });
-app.get("/*", (req, res, next) => {
-  res.send("Hello World");
-});
 
-app.post("/showcase", async (req, res) => {
+app.post("/showcase", async (req, res, next) => {
   const { url } = req.body;
 
   try {
@@ -35,7 +32,6 @@ app.post("/showcase", async (req, res) => {
     const $ = cheerio.load(html);
 
     const arrElements = [
-      "title",
       "h1",
       "h2",
       "h3",
@@ -49,6 +45,7 @@ app.post("/showcase", async (req, res) => {
       "ol",
       "main",
     ];
+
     const elements = [];
 
     const getInnerText = () => {
@@ -57,7 +54,9 @@ app.post("/showcase", async (req, res) => {
 
     const setString = () => {
       getInnerText();
-      return res.send(elements.join(""));
+      const text = elements.join("");
+      const title = $("title").text();
+      res.status(200).send({ text, title });
     };
 
     setString();
