@@ -18,7 +18,7 @@ app.get("/favicon.ico", (req, res, next) => {
 
 app.post("/showcase", async (req, res, next) => {
   const { url } = req.body;
-
+  console.log(req);
   try {
     createProxyMiddleware({
       target: url,
@@ -29,7 +29,7 @@ app.post("/showcase", async (req, res, next) => {
 
     const response = await axios.get(url);
     const html = response.data;
-    const $ = cheerio.load(html);
+    const $ = cheerio.load(html, { scriptingEnabled: false });
 
     const arrElements = [
       "h1",
@@ -49,7 +49,9 @@ app.post("/showcase", async (req, res, next) => {
     const elements = [];
 
     const getInnerText = () => {
-      arrElements.map((el) => elements.push($(el).text()));
+      arrElements.map((el) => {
+        elements.push($(el).text());
+      });
     };
 
     const setString = () => {
@@ -62,7 +64,7 @@ app.post("/showcase", async (req, res, next) => {
     setString();
   } catch (error) {
     console.log(error);
-    res.sendStatus(500);
+    //res.sendStatus(500).statusMessage(`Error: ${error}`);
   }
 });
 
