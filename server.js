@@ -43,7 +43,7 @@ app.post("/showcase", async (req, res, next) => {
       "li",
       "ul",
       "ol",
-      "main",
+      "div",
     ];
 
     const elements = [];
