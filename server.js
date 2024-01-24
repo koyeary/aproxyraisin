@@ -27,8 +27,10 @@ app.post("/showcase", async (req, res, next) => {
       logger: console,
     });
 
-    const response = await axios.get(url);
-    const html = response.data;
+    const res = await axios.get(url);
+    res.sendStatus(200).send(res.data);
+
+    /*  const html = response.data;
     const $ = cheerio.load(html, { scriptingEnabled: false });
 
     const arrElements = [
@@ -61,7 +63,7 @@ app.post("/showcase", async (req, res, next) => {
       res.status(200).send({ text, title });
     };
 
-    setString();
+    setString(); */
   } catch (error) {
     console.log(error);
     //res.sendStatus(500).statusMessage(`Error: ${error}`);
