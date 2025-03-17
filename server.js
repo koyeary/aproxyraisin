@@ -16,21 +16,21 @@ app.get("/favicon.ico", (req, res, next) => {
   res.sendStatus(204);
 });
 
-app.post("/showcase", async (req, res, next) => {
+app.post("/text", async (req, res, next) => {
   const { url } = req.body;
   console.log(req);
   try {
     createProxyMiddleware({
       target: url,
       changeOrigin: true,
-      pathRewrite: { [`^/showcase`]: "" },
+      pathRewrite: { [`^/text`]: "" },
       logger: console,
     });
 
     const res = await axios.get(url);
     res.sendStatus(200).send(res.data);
 
-    /*  const html = response.data;
+    const html = response.data;
     const $ = cheerio.load(html, { scriptingEnabled: false });
 
     const arrElements = [
@@ -59,14 +59,13 @@ app.post("/showcase", async (req, res, next) => {
     const setString = () => {
       getInnerText();
       const text = elements.join("");
-      const title = $("title").text();
-      res.status(200).send({ text, title });
+      res.status(200).send({ text });
     };
 
-    setString(); */
+    setString();
   } catch (error) {
     console.log(error);
-    //res.sendStatus(500).statusMessage(`Error: ${error}`);
+    res.sendStatus(500).statusMessage(`Error: ${error}`);
   }
 });
 
