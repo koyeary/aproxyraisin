@@ -6,7 +6,6 @@ const morgan = require("morgan");
 const { createProxyMiddleware } = require("http-proxy-middleware");
 const cheerio = require("cheerio");
 const cors = require("cors");
-const e = require("express");
 
 const app = express();
 app.use(morgan("dev"));
@@ -45,9 +44,12 @@ app.post("/text", async (req, res, next) => {
     const results = await axios.get(url);
 
     const html = results.data;
+    // Parse the HTML using cheerio
+    // Script is disabled to avoid executing any scripts in the HTML, but scripts will still be present in the DOM
     const $ = cheerio.load(html, { scriptingEnabled: false });
 
-    const arrElements = [
+    // List of HTML elements to extract text from
+    const htmlElements = [
       "a",
       "abbr",
       "address",
@@ -163,14 +165,17 @@ app.post("/text", async (req, res, next) => {
     let arrText = [];
 
     const getInnerText = () => {
-      arrElements.map((el) => {
+      htmlElements.map((el) => {
         arrText.push($(el).text());
       });
+      // Remove any lingering javascript function calls from the text
+      // This is a workaround
+      arrText = arrText.filter((text) => !text.includes("function"));
     };
 
     const setString = () => {
       getInnerText();
-      arrText = arrText.filter((text) => !text.includes("function"));
+
       const innerText = arrText.join("");
       // Check if any text was found
       if (!innerText) {
